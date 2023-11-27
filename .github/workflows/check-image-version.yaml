@@ -24,7 +24,6 @@ jobs:
           git checkout -B Update-image-version-${{ inputs.branch }} origin/${{ inputs.branch }}
 
       - name: Check and update images
-        working-directory: redhat/overlays
         run: |
           IMAGES=("registry.access.redhat.com/ubi9/go-toolset" "registry.access.redhat.com/ubi9/ubi-minimal" "brew.registry.redhat.io/rh-osbs/openshift-golang-builder")
 
