@@ -9,6 +9,10 @@ on:
     secrets:
       token:
         required: true
+      REDHAT_REGISTRY_USERNAME:
+        required: true
+      REDHAT_REGISTRY_PASSWORD:
+        required: true
 
 jobs:
   check-image-version:
@@ -22,6 +26,10 @@ jobs:
           
           git fetch origin
           git checkout -B Update-image-version-${{ inputs.branch }} origin/${{ inputs.branch }}
+
+      - name: Log in to image registry's
+        run: |
+          skopeo login brew.registry.redhat.io -u ${{ secrets.REDHAT_REGISTRY_USERNAME }} -p ${{ secrets.REDHAT_REGISTRY_PASSWORD }}
 
       - name: Check and update images
         run: |
