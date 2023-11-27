@@ -27,13 +27,9 @@ jobs:
           git fetch origin
           git checkout -B Update-image-version-${{ inputs.branch }} origin/${{ inputs.branch }}
 
-      - name: Log in to brew image registry
-        run: |
-          skopeo login brew.registry.redhat.io -u ${{ secrets.BREW_REDHAT_REGISTRY_USERNAME }} -p ${{ secrets.BREW_REDHAT_REGISTRY_PASSWORD }}
-
       - name: Check and update images
         run: |
-          IMAGES=("registry.access.redhat.com/ubi9/go-toolset" "registry.access.redhat.com/ubi9/ubi-minimal" "brew.registry.redhat.io/rh-osbs/openshift-golang-builder")
+          IMAGES=("registry.access.redhat.com/ubi9/go-toolset" "registry.access.redhat.com/ubi9/ubi-minimal")
 
           for image in "${IMAGES[@]}"; do
               LATEST_SHA=$(skopeo inspect --raw docker://$image:latest | jq -r '.manifests[] | select(.platform.architecture == "amd64") .digest')
